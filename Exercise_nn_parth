@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 25 00:21:39 2021
+
+@author: Parth Patel
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+import neurolab as nl
+
+
+# Exercise 1: Single layer feed forward to recognize sum pattern
+# generate random 2-d array (btw -0.6 & 0.6) as input
+min =-0.6
+max =0.6
+total_num=10
+
+input_parth = np.random.uniform(min, max, (10, 2))
+# 3. Create the target data (output):
+output_parth = (input_parth[:, 0] + input_parth[:, 1]).reshape(10, 1)
+
+import random
+random.seed(1)
+
+dim1 = [-0.6, 0.6]
+dim2 = [-0.6, 0.6]
+num_output = output_parth.shape[1]
+# create a simple neural network with two inputs, 6 neurons in the single layer and one output.
+net = nl.net.newff([dim1, dim2], [ 6, num_output])
+
+#net.trainf = nl.train.train_gd
+# train the network 
+error_progress = net.train(input_parth, output_parth, show=15, goal=0.00001)
+# Plot training error
+plt.figure() 
+plt.plot(error_progress)
+plt.xlabel('Number of epochs')
+plt.ylabel('Error')
+plt.title('Training error progress')
+# testing 
+output = net.sim([[0.1,0.2]])
+
+print(output)
+
+
+# Exercise 2 : Multi-layer feed forward to recognize sum pattern
+#----------------------------
+min =-0.6
+max =0.6
+total_num=10
+# generate features and target 
+input_parth = np.random.uniform(min, max, (10, 2))
+
+output_parth = (input_parth[:, 0] + input_parth[:, 1]).reshape(10, 1)
+
+random.seed(1)
+
+dim1 = [-0.6, 0.6]
+dim2 = [-0.6, 0.6]
+
+num_output = output_parth.shape[1]
+#create multi layer feed forward netwrok with two hidden layer and one output.
+net = nl.net.newff([dim1, dim2], [ 5,3,num_output])
+#Set the training algorithm to Gradient descent backpropogation
+net.trainf = nl.train.train_gd
+# trian the network 
+error_progress = net.train(input_parth, output_parth, epochs=1000 ,show=100, goal=0.00001)
+# Plot training error
+plt.figure() 
+plt.plot(error_progress)
+plt.xlabel('Number of epochs')
+plt.ylabel('Error')
+plt.title('Training error progress')
+#testing
+output = net.sim([[0.1,0.2]])
+
+print(output)
+
+
+
+# Exercise 3 : Single-layer feed forward to recognize sum pattern with more training data
+#----------------------------
+min =-0.6
+max =0.6
+total_num=100
+# generate features and tagets
+input_parth = np.random.uniform(min, max, (100, 2))
+
+output_parth = (input_parth[:, 0] + input_parth[:, 1]).reshape(100, 1)
+
+random.seed(1)
+dim1 = [-0.6, 0.6]
+dim2 = [-0.6, 0.6]
+
+# create a simple neural network with two inputs, 6 neurons in the single layer and one output.
+
+net = nl.net.newff([dim1, dim2], [ 6,1])
+# train the network 
+error_progress = net.train(input_parth, output_parth, show=15, goal=0.00001)
+# plot training error 
+plt.figure() 
+plt.plot(error_progress)
+plt.xlabel('Number of epochs')
+plt.ylabel('Error')
+plt.title('Training error progress')
+#testing
+output = net.sim([[0.1,0.2]])
+
+print(output)
+
+
+
+
+# Exercise 4 : Multi-layer feed forward to recognize sum pattern with more training data
+#----------------------------
+
+total_num=100
+#generates features and targets
+input_parth = np.random.uniform(min, max, (100, 2))
+
+output_parth = (input_parth[:, 0] + input_parth[:, 1]).reshape(100, 1)
+
+random.seed(1)
+dim1 = [-0.6, 0.6]
+dim2 = [-0.6, 0.6]
+
+#create multi layer feed forward netwrok with two hidden layer and one output.
+net = nl.net.newff([dim1, dim2], [ 5,3,1])
+#Set the training algorithm to Gradient descent backpropogation
+net.trainf = nl.train.train_gd
+# train the network 
+error_progress = net.train(input_parth, output_parth, epochs=1000 ,show=100, goal=0.00001)
+# plot training error 
+plt.figure() 
+plt.plot(error_progress)
+plt.xlabel('Number of epochs')
+plt.ylabel('Error')
+plt.title('Training error progress')
+#testing
+output = net.sim([[0.1,0.2]])
+
+print(output)
+
+
+
+
+# Exercise 5 : Three input multi-layer feed forward to recognize sum pattern with more training data
+#----------------------------
+
+total_num=10
+# generate features and targets 
+input_parth = np.random.uniform(min, max, (10, 3))
+
+output_parth = (input_parth[:, 0] + input_parth[:, 1]).reshape(10, 1)
+
+random.seed(1)
+#find minimum and maximum for each column 
+dim1 = [-0.6, 0.6]
+dim2 = [-0.6, 0.6]
+dim3 = [-0.6, 0.6]
+
+## create a simple neural network with three inputs, 6 neurons in the single layer and one output.
+
+net = nl.net.newff([dim1, dim2, dim3], [ 6, 1])
+# train the network 
+error_progress = net.train(input_parth, output_parth, show=15, goal=0.00001)
+# plot training errors
+plt.figure() 
+plt.plot(error_progress)
+plt.xlabel('Number of epochs')
+plt.ylabel('Error')
+plt.title('Training error progress')
+#testing
+output = net.sim([[0.2,0.1,0.2]])
+
+print(output)
+
+
+
+#100 data samples with 3 inputs multi layer neural network
+
+total_num=100
+# generate features and  taragets
+input_parth = np.random.uniform(min, max, (100, 3))
+
+output_parth = (input_parth[:, 0] + input_parth[:, 1]).reshape(100, 1)
+
+random.seed(1)
+dim1 = [-0.6, 0.6]
+dim2 = [-0.6, 0.6]
+dim3 = [-0.6, 0.6]
+num_output = output_parth.shape[1]
+#create multi layer feed forward netwrok with two hidden layer and one output.
+net = nl.net.newff([dim1, dim2, dim3], [ 5,3,num_output])
+#Set the training algorithm to Gradient descent backpropogation
+net.trainf = nl.train.train_gd
+# train the network 
+error_progress = net.train(input_parth, output_parth, epochs=1000 ,show=100, goal=0.00001)
+# plot training errors
+plt.figure() 
+plt.plot(error_progress)
+plt.xlabel('Number of epochs')
+plt.ylabel('Error')
+plt.title('Training error progress')
+#testing
+output = net.sim([[0.2,0.1,0.2]])
+
+print(output)
